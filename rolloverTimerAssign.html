@@ -1,0 +1,372 @@
+<!doctype html>
+<!-- 
+Create a web page that does has the following components:
+1.	A back button which is also a rollover. (rollover must be images)
+2.	A forward button which is also a rollover. (rollover must be images)
+3.	Has a clock
+4.	That has a picture that changes every three seconds and has five different images in all.  Model after the example that is posted in D2L.  Remember that JavaScript can change any tag attribute document.getElementById()……….
+5.	Has a three state button that opens a window called “test.html” with the dimensions set to 800 x 600 px.  (rollover images or text)
+6.	Has a rollover button that will close the opened window.
+7.	Has a button or hotspot that when mouseovered is shows the “browser” information.
+8.	That has a timer that changes some form of the page. It must run a minimum of six times but no more than 12 then stop.
+9.	That has paragraph that changes text periodically.
+10.	Must show some creativity and style.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<title>Rollover and Timers Assign</title>
+	
+	<style>
+		
+		/*style for changing images and text*/
+		.change1{
+			
+		}
+		
+		/*open and closing the new window*/
+		.openwindow{
+			float: left;
+			padding-left: 10px;
+		}
+		.closewindow{
+			float: left;
+		}
+		.browserinfo{
+			padding-top: 80px;
+		}
+		
+		/*style for back and forward buttons*/
+		
+		.movingPages{
+			height: 120px;
+			width: 250px;
+		}
+		
+		.goback{
+			float: left;
+			padding-right: 10px;
+		}
+		
+		.goforward{
+			float: left;
+		}
+		
+		.changer{
+			padding-top: 100px;
+			padding-bottom: 100px;
+		}
+		
+	</style>
+	
+	
+</head>
+<body>
+	
+	
+	
+	<h1>All About Montana</h1>
+	<!-- ------------------------------------------------------------- -->
+	<div>
+		<!--Clock-->
+		The current time (MST) is: <p id="clock"></p>
+	</div>
+	<!-- ------------------------------------------------------------- -->
+	
+	
+	
+	
+	<!-- ------------------------------------------------------------- -->
+	<div class="change1">
+		<!--Rotating message & images-->
+		<h3>The 12 seasons of Montana</h3>
+		<p id="newMsg" onClick="msgstop();"></p>
+		<img src="winter1.jpg" alt="circle" id="circle" onClick="stop();">
+	</div>
+	<!-- ------------------------------------------------------------- -->
+
+	<div class="MTF">
+		<h3>Fun facts about Montana</h3>
+		<div class="openwindow">
+		<a>
+			<img src="open.jpg"
+				 onMouseOver="this.src='to.jpg'"
+				 onMouseOut="this.src='read.jpg'"
+				 onclick="openMyPage()"
+				 alt="openwindow">
+		</a>
+		</div>
+		<div class="closewindow">
+		<a>
+			<img src="close.jpg"
+				 onMouseOver="this.src='when.jpg'"
+				 onMouseOut="this.src='done.jpg'"
+				 onclick="closeMyPage()"
+				 alt="closewindow">
+		</a>
+	</div>
+	
+	</div>
+	<br><br><br>
+	<!-- ------------------------------------------------------------- -->
+	<!--Browser Informaiton-->
+	<div class="browserinfo">
+	        <h3>Browser Info </h3>
+        <p onclick="browser()">View Info</p>
+        <p id="brows"></p>
+	</div>
+	<!-- ------------------------------------------------------------- -->
+	<div class="movingPages">
+		<!--Go back and forward - add to all pages-->
+		<div class="goback">
+			<p onClick="goBack()">
+			<img src="backArrow.png" 
+				 onMouseOver="BackRollOver(this)"
+				 onMouseOut="BackOut(this)"
+				 alt="goback"></p>
+		</div>
+
+
+		<div class="goforward">
+			<p onClick="goForward()">
+			<img src="forwardArrow.png" 
+				 onMouseOver="ForwardRollOver(this)"
+				 onMouseOut="ForwardOut(this)"
+				 alt="goforward"></p>
+		</div>
+	
+	</div>
+	<div class="changer">
+		<p  id="obnox">Changer</p>
+	</div>
+	<script>
+		
+		//----------------------------------------------
+		//clock
+		var newWindow;
+		var myVar = setInterval(function(){
+			myClock();	
+		}, 1000);
+		
+		function myClock(){
+			var d = new Date();
+			//use to pull the time off of the machine
+			var time = d.toLocaleTimeString();
+			document.getElementById("clock").innerHTML = time;
+		}
+		
+		//--------------------------------------------
+		//changing paragraph every second
+		var msgCount = 1;
+		var msgtime = setInterval(function(){newMessage()}, 1000);
+		
+		function newMessage(){
+			var myMsg;
+			switch(msgCount){
+				case 1: 
+					myMsg = "Winter";
+					break;
+				case 2:
+					myMsg = "Fool's spring";
+					break;
+				case 3: 
+					myMsg = "Second winter";
+					break;
+				case 4: 
+					myMsg = "Spring of deception";
+					break;
+				case 5: 
+					myMsg = "Third winter";
+					break;
+				case 6:
+					myMsg = "Mud season"
+					break;
+				case 7:
+					myMsg = "Actual spring"
+					break;
+				case 8:
+					myMsg = "Road construction"
+					break;
+				case 9:
+					myMsg = "Summer"
+					break;
+				case 10:
+					myMsg = "False fall"
+					break;
+				case 11:
+					myMsg = "Second summer"
+					break;
+				case 12:
+					myMsg = "More winter"
+					break;
+			} //end of switch
+			
+			document.getElementById("newMsg").innerHTML = myMsg;
+			msgCount++;
+			
+			//reset at the end
+			if(msgCount > 12){
+				msgCount = 1;
+			}
+		}
+		
+		function msgstop(){
+			clearInterval(msgtime);
+		}
+		
+		//--------------------------------------------
+		//changing image
+		var image_tracker;
+		
+		function change(){
+			var image = document.getElementById('circle');
+			if(image_tracker == 'orange'){
+				image.src = 'foolsSpring2.jpg';
+				image_tracker = 'blue'
+			} else if(image_tracker == 'blue'){
+				image.src = 'secondWinter3.jpg';
+				image_tracker = 'red';
+			} else if(image_tracker == 'red'){
+				image.src = 'springOfDeception4.jpg';
+				image_tracker = 'yellow';
+			} else if(image_tracker == 'yellow'){
+				image.src = 'thirdWinter5.jpg';
+				image_tracker = 'purple';
+			} else if(image_tracker == 'purple'){
+				image.src = 'mudSeason6.jpg';
+				image_tracker = 'green';
+			} else if(image_tracker == 'green'){
+				image.src = 'actualSpring7.jpg';
+				image_tracker = 'brown';
+			} else if(image_tracker == 'brown'){
+				image.src = 'roadConstruction8.jpg';
+				image_tracker = 'black';
+			} else if(image_tracker == 'black'){
+				image.src = 'summer9.jpg';
+				image_tracker = 'pink';
+			} else if(image_tracker == 'pink'){
+				image.src = 'fall10.jpg';
+				image_tracker = 'grey';
+			} else if(image_tracker == 'grey'){
+				image.src = 'secondSummer11.jpg';
+				image_tracker = 'white';
+			} else if(image_tracker == 'white'){
+				image.src = 'moreWinter12.jpg';
+				image_tracker = 'gold';
+			} else {
+				image.src = 'winter1.jpg';
+				image_tracker = 'orange';
+			}
+	
+		}
+		
+		var timer = setInterval('change();',1000);
+		
+		function stop(){
+			clearInterval(timer);
+		}
+		//-------------------------------------------------
+		
+		//open new page
+		function openMyPage(){
+            newWindow = window.open("montanaFacts.html", 
+                "_blank", "toolbar=yes, width=200, heigh=300");
+			newWindow.resizeTo(600,800);
+			newWindow.focus();
+        }
+		
+		//---------------------------------------------------
+		
+		//close the page
+        function closeMyPage(){
+                newWindow.close();
+        }
+		//-------------------------------------------------
+		function browser()
+		{
+			txt = "Browser CodeName: " + navigator.appCodeName.toString() + "</p>";
+			txt += "<p>Browser Name: " + navigator.appName + "</p>";
+			txt += "<p>Browser Version: " + navigator.appVersion + "</p>";
+			txt += "<p>Cookies Enabled: " + navigator.cookieEnabled + "</p>";
+			txt += "<p>Platform: " + navigator.platform + "</p>";
+			txt += "<p>User-agent header: " + navigator.userAgent + "</p>";
+			txt += "<p>User-agent language: " + navigator.systemLanguage + "</p>";
+			txt += "<p>-- " + navigator.product + " " + navigator.vendor;
+
+			document.getElementById("brows").innerHTML = txt;
+		}
+		
+		
+		//--------------------------------------------------
+		//go back
+		function goBack(){
+			window.history.back();
+		}
+		
+		function BackRollOver(myImage){
+			myImage.src = "backWord.jpg";
+		}
+		
+		function BackOut(myImage){
+			myImage.src = "backArrow.png";
+		}
+		
+		//---------------------------------------------
+		//go forward
+		function goForward(){
+			window.history.forward();
+		}
+		
+		function ForwardRollOver(myImage){
+			myImage.src = "forwardWord.jpg";
+		}
+		
+		function ForwardOut(myImage){
+			myImage.src = "forwardArrow.png";
+		}
+		
+		//---------------------------------------------
+		
+		//changer at bottom
+    	var beObnoxious = setInterval(function() {obnoxious()}, 10);
+
+
+    	var newsize = -5;
+    	var incr = 1;
+    	var obcount=0;
+
+
+		function obnoxious()
+		{
+			var xx;
+			newsize = newsize + incr;
+			xx = newsize + "px";
+			document.getElementById("obnox").style.fontSize = xx;
+
+			if (newsize === 48){
+				incr = -1;
+			}
+			if (newsize === 0){
+				incr = 1;
+				document.getElementById("obnox"); 
+				obcount++;
+			}
+			if (obcount === 6){
+				stopObnoxious();
+			}
+
+		}
+            
+        function stopObnoxious(){
+           clearInterval(beObnoxious);
+        }
+	</script>
+	
+</body>
+</html>
+
+
+
+
+
+
